@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages (Simple)
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -22,22 +24,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Fix index.html - remove if directory
+      - name: Remove index.html if it's a directory
         run: |
           if [ -d index.html ]; then
-            echo "index.html is a directory, removing it"
+            echo "Removing index.html directory"
             rm -rf index.html
           fi
           if [ -e index.html ] && [ ! -f index.html ]; then
-            echo "index.html exists but is not a file, removing it"
+            echo "Removing non-file index.html"
             rm -rf index.html
           fi
-          # Always remove to ensure clean state
-          rm -f index.html
       
-      - name: Create index.html file
+      - name: Ensure index.html exists as file
         run: |
-          cat > index.html << 'EOF'
+          if [ ! -f index.html ]; then
+            echo "Creating index.html file"
+            cat > index.html << 'HTML_EOF'
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -143,11 +145,11 @@ jobs:
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
-EOF
-          chmod 644 index.html
-          ls -la index.html
-          file index.html
-          test -f index.html && echo "index.html is a regular file" || echo "ERROR: index.html is not a file"
+HTML_EOF
+          fi
+          ls -lh index.html
+          file index.html || echo "file command not available"
+          [ -f index.html ] && echo "✓ index.html is a regular file" || echo "✗ ERROR: index.html is not a file"
       
       - name: Build
         run: npm run build
@@ -158,4 +160,3 @@ EOF
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           cname: false
-
