@@ -22,6 +22,125 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Fix index.html if needed
+        run: |
+          if [ -d index.html ]; then
+            echo "index.html is a directory, removing it"
+            rm -rf index.html
+          fi
+          if [ ! -f index.html ]; then
+            echo "index.html not found, creating it"
+            cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TWFIK Digital Services</title>
+    <meta name="description" content="We build high-performance websites, create powerful AI prompts, and offer premium digital assets to elevate your brand." />
+    <meta name="keywords" content="web development, ai prompts, digital tools, seo services, custom websites" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="alternate" hreflang="en" href="?lang=en" />
+    <link rel="alternate" hreflang="ar" href="?lang=ar" />
+    <link rel="alternate" hreflang="es" href="?lang=es" />
+    <link rel="alternate" hreflang="fr" href="?lang=fr" />
+    <link rel="alternate" hreflang="x-default" href="?lang=en" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Oswald', 'sans-serif'],
+            },
+            colors: {
+              'dark-bg': '#000000',
+              'dark-card': '#1a1a1a',
+              'dark-text': '#ffffff',
+              'light-bg': '#f9fafb',
+              'light-card': '#ffffff',
+              'light-text': '#111827',
+              'primary': '#3b82f6',
+              'primary-hover': '#2563eb',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+              'fade-out': 'fadeOut 0.5s ease-out forwards',
+              'blink': 'blink 1.5s infinite step-end',
+              'spin': 'spin 1s linear infinite',
+              'move-bg': 'moveBg 5s linear infinite',
+              'loader-glow': 'loaderGlow 2.5s infinite ease-in-out',
+              'text-glow': 'textGlow 2.5s infinite ease-in-out',
+              'loader-pulse': 'loaderPulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1)',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeOut: {
+                '0%': { opacity: '1' },
+                '100%': { opacity: '0' },
+              },
+              blink: {
+                '50%': { opacity: '0.2' },
+              },
+              moveBg: {
+                '0%': { backgroundPosition: '0 0' },
+                '100%': { backgroundPosition: '2rem 2rem' },
+              },
+              loaderGlow: {
+                '0%, 100%': {
+                  transform: 'scale(1)',
+                  filter: 'drop-shadow(0 0 5px rgba(59, 130, 246, 0.5))',
+                },
+                '50%': {
+                  transform: 'scale(1.05)',
+                  filter: 'drop-shadow(0 0 15px rgba(59, 130, 246, 1)) drop-shadow(0 0 25px rgba(59, 130, 246, 0.7))',
+                },
+              },
+              textGlow: {
+                '0%, 100%': {
+                  textShadow: '0 0 5px rgba(59, 130, 246, 0.4), 0 0 10px rgba(59, 130, 246, 0.2)',
+                },
+                '50%': {
+                  textShadow: '0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6)',
+                },
+              },
+              spin: {
+                'from': { transform: 'rotate(0deg)' },
+                'to': { transform: 'rotate(360deg)' },
+              },
+              loaderPulse: {
+                '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+                '50%': { opacity: '0.5', transform: 'scale(0.95)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-light-bg dark:bg-dark-bg transition-colors duration-300 font-sans">
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
+EOF
+          fi
+          ls -la index.html
+          file index.html
+      
       - name: Build
         run: npm run build
       
