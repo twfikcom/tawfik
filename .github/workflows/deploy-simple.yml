@@ -142,7 +142,6 @@ jobs:
   </body>
 </html>
 EOF
-          EOF
           chmod 644 index.html
           ls -la index.html
           file index.html
