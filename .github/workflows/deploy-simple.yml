@@ -32,6 +32,8 @@ jobs:
             echo "index.html exists but is not a file, removing it"
             rm -rf index.html
           fi
+          # Always remove to ensure clean state
+          rm -f index.html
       
       - name: Create index.html file
         run: |
