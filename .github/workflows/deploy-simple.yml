@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,13 +28,6 @@ jobs:
           if [ -d index.html ]; then
             echo "Removing index.html directory"
             rm -rf index.html
-            # Copy from a backup or recreate
-            if [ -f index.html.backup ]; then
-              cp index.html.backup index.html
-            else
-              echo "Error: index.html is a directory and no backup found"
-              exit 1
-            fi
           fi
           if [ -e index.html ] && [ ! -f index.html ]; then
             echo "Removing non-file index.html"
@@ -53,7 +48,9 @@ jobs:
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           cname: false
+          force_orphan: true
