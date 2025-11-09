@@ -39,7 +39,7 @@ jobs:
         run: |
           if [ ! -f index.html ]; then
             echo "Creating index.html file"
-            cat > index.html << 'HTML_EOF'
+            cat > index.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -145,7 +145,7 @@ jobs:
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
-HTML_EOF
+ENDOFFILE
           fi
           ls -lh index.html
           file index.html || echo "file command not available"
