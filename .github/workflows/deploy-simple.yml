@@ -22,15 +22,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Fix index.html if needed
+      - name: Fix index.html - remove if directory
         run: |
           if [ -d index.html ]; then
             echo "index.html is a directory, removing it"
             rm -rf index.html
           fi
-          if [ ! -f index.html ]; then
-            echo "index.html not found, creating it"
-            cat > index.html << 'EOF'
+          if [ -e index.html ] && [ ! -f index.html ]; then
+            echo "index.html exists but is not a file, removing it"
+            rm -rf index.html
+          fi
+      
+      - name: Create index.html file
+        run: |
+          cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -137,9 +142,11 @@ jobs:
   </body>
 </html>
 EOF
-          fi
+          EOF
+          chmod 644 index.html
           ls -la index.html
           file index.html
+          test -f index.html && echo "index.html is a regular file" || echo "ERROR: index.html is not a file"
       
       - name: Build
         run: npm run build
