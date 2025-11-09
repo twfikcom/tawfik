@@ -5,7 +5,7 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/twfikcom/',
+  base: '/tawfik/',
   root: '.',
   build: {
     outDir: 'dist',
