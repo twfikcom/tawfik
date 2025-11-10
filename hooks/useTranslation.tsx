@@ -24,10 +24,8 @@ export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ childre
     const fetchTranslations = async () => {
       try {
         const languages: Language[] = ['en', 'ar', 'es', 'fr'];
-        // Get base path - Vite sets BASE_URL during build
-        const basePath = (import.meta as any).env?.BASE_URL || '/tawfik/';
         const responses = await Promise.all(
-            languages.map(lang => fetch(`${basePath}locales/${lang}.json`))
+            languages.map(lang => fetch(`/locales/${lang}.json`))
         );
         const data = await Promise.all(responses.map(res => res.json()));
         

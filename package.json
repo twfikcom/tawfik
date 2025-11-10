@@ -1,6 +1,6 @@
 {
   "name": "digital-services-marketplace",
-  "homepage": "https://twfikcom.github.io/tawfik",
+  "homepage": "https://twfikcom.github.io/market",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,18 +8,15 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "deploy": "gh-pages -d dist -f"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.3.26",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.2.1",
-    "gh-pages": "^6.1.1",
+    "gh-pages": "^6.3.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

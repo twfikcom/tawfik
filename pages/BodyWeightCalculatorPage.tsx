@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from '../hooks/useTranslation';
 import AnimateOnScroll from '../components/AnimateOnScroll';
 import FaqSection from '../components/FaqSection';
+import { QuestionAnswer } from '../types';
 import { ShoulderMeasurementIcon, WaistMeasurementIcon, ThighMeasurementIcon } from '../components/icons';
 
 interface BodyWeightCalculatorPageProps {
